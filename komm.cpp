@@ -15,16 +15,19 @@ class Vector {
         Vector(int a, T b){
             Mass = new T[a];
             for (int i = 0; i < a; ++i) {
-                &(a + i) = b;
+                &(Mass + i) = b;
             }
         }
         Vector(int a) {
             Mass = new T[a];
         }
-        void empty() {
+        void clear() {
             Size = 0;
             delete Mass;
             Mass = NULL;
+        }
+        bool empty() {
+            return (Size == 0);
         }
         int size() {
             return Size;
@@ -34,13 +37,20 @@ class Vector {
             delete Mass;
             Mass = new T[Size];
             for (int i = 0; i < Size; ++i) {
-
+                &(Mass + i) = &(copied.Mass + i);
             }
         }
         Vector& operator=(const Vector& copied) const;
-        T& operator[](const T) const;
-        void push_back(T);
-        void pop_back(T);
+        T& operator[](const int a) const {
+            return &((*this).Mass + a);
+        }
+        void push_back(T t1) {
+            Size++;
+            &(Mass + Size - 1) = t1;
+        }
+        void pop_back() {
+            Size--;
+        }
     private:
         T* Mass;
         int Size;
